@@ -1,22 +1,23 @@
 import {
 	AbsoluteFill,
+	Audio,
+	Sequence,
 	interpolate,
 	spring,
 	useCurrentFrame,
 	useVideoConfig,
 } from 'remotion';
+import {VideoSchema} from './schema';
 
-export const MyComposition = () => {
-	const frame = useCurrentFrame();
-	const { fps } = useVideoConfig();
-	const opacity = interpolate(frame, [0, 60], [0, 1], {
-		extrapolateRight: 'clamp',
-	});
-	const scale = spring({
-    fps,
-    frame,
-  });
-
+export const MyComposition = (props: VideoSchema) => {
+	const {fps} = useVideoConfig();
+	const times: number[] = [0];
+	for (let i = 1; i < props.clips.length; i++) {
+		const prevTime = times[i - 1];
+		const clip = props.clips[i];
+		times.push((prevTime || 0) + (clip?.duration || 0));
+	}
+	const frames = times.map((time) => Math.round(time * fps));
 	return (
 		<AbsoluteFill
 			style={{
@@ -27,7 +28,59 @@ export const MyComposition = () => {
 				backgroundColor: 'white',
 			}}
 		>
-			<div style={{opacity, transform: `scale(${scale})`}}>Hello World</div>
+			{props.audioTracks?.map((audio) => {
+				return audio.path ? (
+					<Audio
+						src={audio.path}
+						loop={audio.loop ?? true}
+						volume={audio.mixVolume}
+					/>
+				) : null;
+			})}
+			{props.clips.map((clip, i) => {
+				return <Clip {...clip} frame={frames[i]!} />;
+			})}
 		</AbsoluteFill>
 	);
 };
+
+function Clip(props: VideoSchema['clips'][number] & {frame: number}) {
+	const frame = useCurrentFrame();
+	const {fps} = useVideoConfig();
+	const durationInFrames = Math.round(props.duration * fps);
+
+	return (
+		<Sequence from={props.frame} durationInFrames={durationInFrames}>
+			{props.layers.map((layer) => {
+				if (layer.type === 'woxo-custom-text-basic') {
+					const startFrame = props.frame + Math.round((layer.start || 0) * fps);
+					const endFrame = props.frame + Math.round((layer.stop || 0) * fps);
+					if (frame >= startFrame && frame <= endFrame) {
+						return (
+							<AbsoluteFill
+								style={{justifyContent: 'center', alignItems: 'center'}}
+							>
+								<Text text={layer.text} />
+							</AbsoluteFill>
+						);
+					}
+				}
+				return null;
+			})}
+		</Sequence>
+	);
+}
+
+function Text({text}: {text?: string}) {
+	// const frame = useCurrentFrame();
+	// const {fps} = useVideoConfig();
+	// const opacity = interpolate(frame, [0, 60], [0, 1], {
+	// 	extrapolateRight: 'clamp',
+	// });
+	// const scale = spring({
+	// 	fps,
+	// 	frame,
+	// });
+	// return <div style={{opacity, transform: `scale(${scale})`}}>{text}</div>;
+	return text;
+}

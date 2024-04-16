@@ -5,6 +5,7 @@
 		"jsx": "react-jsx",
 		"outDir": "./dist",
 		"strict": true,
+		"noUncheckedIndexedAccess": true,
 		"noEmit": true,
 		"lib": ["es2015"],
 		"esModuleInterop": true,
