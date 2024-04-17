@@ -6,7 +6,10 @@ settings:
 
 dependencies:
   '@remotion/cli':
-    specifier: ^4.0.0
+    specifier: 4.0.140
+    version: 4.0.140(react-dom@18.2.0)(react@18.2.0)
+  '@remotion/transitions':
+    specifier: 4.0.140
     version: 4.0.140(react-dom@18.2.0)(react@18.2.0)
   react:
     specifier: ^18.0.0
@@ -15,7 +18,7 @@ dependencies:
     specifier: ^18.0.0
     version: 18.2.0(react@18.2.0)
   remotion:
-    specifier: ^4.0.0
+    specifier: 4.0.140
     version: 4.0.140(react-dom@18.2.0)(react@18.2.0)
   zod:
     specifier: ^3.22.4
@@ -23,7 +26,7 @@ dependencies:
 
 devDependencies:
   '@remotion/eslint-config':
-    specifier: ^4.0.0
+    specifier: 4.0.140
     version: 4.0.140(eslint@8.57.0)(typescript@5.4.5)
   '@types/react':
     specifier: ^18.0.26
@@ -748,6 +751,10 @@ packages:
       remotion: 4.0.140(react-dom@18.2.0)(react@18.2.0)
     dev: false
 
+  /@remotion/paths@4.0.140:
+    resolution: {integrity: sha512-L/Z2c7oUyJ6+X+RxYSdSi+MqsATLr04dzqPChbKb7mWvSAs/2fWexD6k9jhObvvyAz+m38Wh5BAbOjaVZk2U2Q==}
+    dev: false
+
   /@remotion/player@4.0.140(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-XAFZtow1UoDrjFCY96jm1KgaLSFFCO5iRiG8MUBIT8sW9c3deZ5p2IFEVMt8lkij6LBV9u3fql2YV0BTuaVyGg==}
     peerDependencies:
@@ -784,6 +791,17 @@ packages:
       - bufferutil
       - supports-color
       - utf-8-validate
+    dev: false
+
+  /@remotion/shapes@4.0.140(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-ziPpCqt7V/4kQ72kH13PsV5UEgiFe3CK8SdWmLVtY2Vnn3O03CU5ZZ8HfT9MyOhAw9PmcGTuX4L16QynXjC97A==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      '@remotion/paths': 4.0.140
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /@remotion/studio-server@4.0.140(react-dom@18.2.0)(react@18.2.0):
@@ -837,6 +855,19 @@ packages:
       - react-dom
       - supports-color
       - utf-8-validate
+    dev: false
+
+  /@remotion/transitions@4.0.140(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-OtSm8J8FIzp+KRgKmIX59ARy85Z9z3yPk6hHGnYrAgOcI4mj9cj1YEgNSPr9+tU2sUw9g+YvS/jF5hvIvQ5lmQ==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      '@remotion/paths': 4.0.140
+      '@remotion/shapes': 4.0.140(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      remotion: 4.0.140(react-dom@18.2.0)(react@18.2.0)
     dev: false
 
   /@types/eslint-scope@3.7.7:
