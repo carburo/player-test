@@ -16,7 +16,7 @@ export const MyComposition = (props: VideoSchema) => {
 	return (
 		<AbsoluteFill
 			style={{
-				fontFamily: 'system-ui',
+				fontFamily: 'sans-serif',
 				justifyContent: 'center',
 				alignItems: 'center',
 				fontSize: 100,
@@ -54,24 +54,42 @@ function Clips(props: VideoSchema) {
 				);
 				return (
 					<React.Fragment key={i}>
-						<TransitionSeries.Sequence durationInFrames={durationInFrames}>
-							<AbsoluteFill>
-								<Img src={staticFile('/output/background/frame1.jpg')} />
-							</AbsoluteFill>
+						<TransitionSeries.Sequence
+							key={i}
+							durationInFrames={durationInFrames}
+						>
 							{clip.layers.map((layer, index) => {
-								if (layer.type === 'woxo-custom-text-basic') {
-									const startFrame =
-										clipFrame + Math.round((layer.start || 0) * fps);
-									const endFrame =
-										clipFrame + Math.round((layer.stop || 0) * fps);
-									if (frame >= startFrame && frame < endFrame) {
-										return <Text key={index} {...layer} />;
+								switch (layer.type) {
+									case 'woxo-custom-text-basic': {
+										const startFrame =
+											clipFrame + Math.round((layer.start || 0) * fps);
+										const endFrame =
+											clipFrame + Math.round((layer.stop || 0) * fps);
+										if (frame >= startFrame && frame < endFrame) {
+											return <Text key={index} {...layer} />;
+										}
+										break;
+									}
+									case 'woxo-image': {
+										return (
+											<AbsoluteFill key={index}>
+												<Img
+													// @ts-expect-error type discrimination not working
+													src={staticFile(layer.path)}
+													style={{objectFit: 'cover', height: "100%"}}
+												/>
+											</AbsoluteFill>
+										);
+									}
+									default: {
+										return null;
 									}
 								}
 								return null;
 							})}
 						</TransitionSeries.Sequence>
 						<TransitionSeries.Transition
+							key={'t' + i}
 							presentation={fade()}
 							timing={linearTiming({durationInFrames: transitionInFrames})}
 						/>
@@ -86,16 +104,6 @@ function Text(layer: VideoSchema['clips'][number]['layers'][number]) {
 	if (layer.type !== 'woxo-custom-text-basic') {
 		return null;
 	}
-	// const frame = useCurrentFrame();
-	// const {fps} = useVideoConfig();
-	// const opacity = interpolate(frame, [0, 60], [0, 1], {
-	// 	extrapolateRight: 'clamp',
-	// });
-	// const scale = spring({
-	// 	fps,
-	// 	frame,
-	// });
-	// return <div style={{opacity, transform: `scale(${scale})`}}>{text}</div>;
 	const {strokeWidth, stroke} = layer;
 	const textShadow: string = `${strokeWidth}px ${strokeWidth}px 0 ${stroke}, 
 	-${strokeWidth}px ${strokeWidth}px 0 ${stroke},

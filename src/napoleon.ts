@@ -397,7 +397,7 @@ export const video = {
 			},
 			layers: [
 				{
-					path: '/output/background/frame2.jpg',
+					path: '/output/background/frame2.png',
 					type: 'woxo-image',
 					resizeMode: 'cover',
 					animation: true,
@@ -840,7 +840,7 @@ export const video = {
 			},
 			layers: [
 				{
-					path: '/output/background/frame3.jpg',
+					path: '/output/background/frame3.png',
 					type: 'woxo-image',
 					resizeMode: 'cover',
 					animation: true,
@@ -1244,7 +1244,7 @@ export const video = {
 			},
 			layers: [
 				{
-					path: '/output/background/frame4.jpg',
+					path: '/output/background/frame4.png',
 					type: 'woxo-image',
 					resizeMode: 'cover',
 					animation: true,
@@ -1617,7 +1617,7 @@ export const video = {
 			},
 			layers: [
 				{
-					path: '/output/background/frame5.jpg',
+					path: '/output/background/frame5.png',
 					type: 'woxo-image',
 					resizeMode: 'cover',
 					animation: true,
