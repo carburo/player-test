@@ -9,17 +9,11 @@ import {
 	useVideoConfig,
 } from 'remotion';
 import {VideoSchema} from './schema';
+import { transform } from './schemaTransform';
 
 export const MyComposition = (props: VideoSchema) => {
 	const {fps} = useVideoConfig();
-	const durations = props.clips.map(clip => clip.duration)
-	const transitions = props.clips.map(clip => clip.transition?.duration || 0);
-	const times: number[] = [0];
-	for (let i = 1; i < props.clips.length; i++) {
-		const prevTime = times[i - 1];
-		times.push((prevTime || 0) + durations[i]! - transitions[i - 1]!);
-	}
-	const frames = times.map((time) => Math.round(time * fps));
+	const { durations, transitions, times, frames } = transform(props, fps);
 	return (
 		<AbsoluteFill
 			style={{

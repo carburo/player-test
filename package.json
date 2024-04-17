@@ -6,8 +6,10 @@
 		"start": "remotion studio",
 		"build": "remotion render MyComp out/video.mp4",
 		"upgrade": "remotion upgrade",
-		"test": "eslint src --ext ts,tsx,js,jsx && tsc"
+		"lint": "eslint src --ext ts,tsx,js,jsx && tsc",
+		"test": "node --import tsx/esm --test src/*.test.ts"
 	},
+	"type": "module",
 	"repository": {},
 	"license": "UNLICENSED",
 	"dependencies": {
@@ -23,6 +25,7 @@
 		"@types/web": "^0.0.86",
 		"eslint": "^8.43.0",
 		"prettier": "^2.8.8",
+		"tsx": "^4.7.2",
 		"typescript": "^5.4.5"
 	}
 }
