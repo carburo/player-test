@@ -13,11 +13,11 @@ export const video = {
 	],
 	audioTracks: [
 		{
-			path: '/dakp804eh/video/upload/v1674146668/woxo-video/audios-normalized/Epic/80s_MOODHALO.mp3',
+			path: 'https://res.cloudinary.com/dakp804eh/video/upload/v1674146668/woxo-video/audios-normalized/Epic/80s_MOODHALO.mp3',
 			mixVolume: 0.2,
 		},
 		{
-			path: '/output/L-Ut-tvRqd/Klir-.mp3',
+			path: 'https://vod.front10.cloud/output/L-Ut-tvRqd/Klir-.mp3',
 			loop: false,
 		},
 	],
@@ -31,7 +31,7 @@ export const video = {
 			},
 			layers: [
 				{
-					path: '/output/background/frame1.jpg',
+					path: 'https://res.cloudinary.com/dakp804eh/image/fetch/v1677535951/https://vod.front10.cloud/output/62b3c977dbd7bf23d44e1a2c/JX-aUwqHXTKJT/VX-iQ6vqZRgwd.jpg',
 					type: 'woxo-image',
 					resizeMode: 'cover',
 					animation: true,
@@ -397,7 +397,7 @@ export const video = {
 			},
 			layers: [
 				{
-					path: '/output/background/frame2.jpg',
+					path: 'https://res.cloudinary.com/dakp804eh/image/fetch/v1677535951/https://vod.front10.cloud/output/62b3c977dbd7bf23d44e1a2c/JX-aUwqHXTKJT/VX-iQ6vqZRgwd.jpg',
 					type: 'woxo-image',
 					resizeMode: 'cover',
 					animation: true,
@@ -840,7 +840,7 @@ export const video = {
 			},
 			layers: [
 				{
-					path: '/output/background/frame3.jpg',
+					path: 'https://res.cloudinary.com/dakp804eh/image/fetch/v1677535951/https://vod.front10.cloud/output/62b3c977dbd7bf23d44e1a2c/JX-aUwqHXTKJT/VX-iQ6vqZRgwd.jpg',
 					type: 'woxo-image',
 					resizeMode: 'cover',
 					animation: true,
@@ -1244,7 +1244,7 @@ export const video = {
 			},
 			layers: [
 				{
-					path: '/output/background/frame4.jpg',
+					path: 'https://res.cloudinary.com/dakp804eh/image/fetch/v1677535951/https://vod.front10.cloud/output/62b3c977dbd7bf23d44e1a2c/JX-aUwqHXTKJT/VX-iQ6vqZRgwd.jpg',
 					type: 'woxo-image',
 					resizeMode: 'cover',
 					animation: true,
@@ -1617,7 +1617,7 @@ export const video = {
 			},
 			layers: [
 				{
-					path: '/output/background/frame5.jpg',
+					path: 'https://res.cloudinary.com/dakp804eh/image/fetch/v1677535951/https://vod.front10.cloud/output/62b3c977dbd7bf23d44e1a2c/JX-aUwqHXTKJT/VX-iQ6vqZRgwd.jpg',
 					type: 'woxo-image',
 					resizeMode: 'cover',
 					animation: true,
