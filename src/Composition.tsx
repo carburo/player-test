@@ -12,11 +12,12 @@ import {VideoSchema} from './schema';
 
 export const MyComposition = (props: VideoSchema) => {
 	const {fps} = useVideoConfig();
+	const durations = props.clips.map(clip => clip.duration)
+	const transitions = props.clips.map(clip => clip.transition?.duration || 0);
 	const times: number[] = [0];
 	for (let i = 1; i < props.clips.length; i++) {
 		const prevTime = times[i - 1];
-		const clip = props.clips[i];
-		times.push((prevTime || 0) + (clip?.duration || 0));
+		times.push((prevTime || 0) + durations[i]! - transitions[i - 1]!);
 	}
 	const frames = times.map((time) => Math.round(time * fps));
 	return (
@@ -42,7 +43,7 @@ export const MyComposition = (props: VideoSchema) => {
 				) : null;
 			})}
 			{props.clips.map((clip, i) => {
-				return <Clip {...clip} frame={frames[i]!} />;
+				return <Clip {...clip} frame={frames[i]!} duration={durations[i]!} />;
 			})}
 		</AbsoluteFill>
 	);
