@@ -130,7 +130,6 @@ const woxoCompoundSchema = z
 
 const textOptionsSchema = z.object({
 	fill: z.optional(z.string()),
-	type: z.optional(z.string()),
 	originX: z.optional(z.string()),
 	originY: z.optional(z.string()),
 	width: z.optional(z.number()),
@@ -317,7 +316,7 @@ const layerSchema = z.union([
 	woxoFillColorSchema,
 	woxoCompoundSchema,
 	styledTextLayerSchema,
-	woxoImageLayerSchema,
+	// woxoImageLayerSchema,
 	woxoSVGSchema,
 	woxoGradientSchema,
 	serverSchema,
@@ -373,7 +372,7 @@ export const videoSchema = z.object({
 	audioTracks: z.optional(z.array(IAudioSchema)),
 	clipsAudioVolume: z.optional(z.number()),
 	keepSourceAudio: z.optional(z.boolean()),
-  meta: z.optional(z.record(z.string())),
+	meta: z.optional(z.record(z.string())),
 });
 
 export type VideoSchema = typeof videoSchema._type;

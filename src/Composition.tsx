@@ -30,6 +30,7 @@ export const MyComposition = (props: VideoSchema) => {
 						key={path}
 						src={staticFile(path)}
 						loop={audio.loop ?? true}
+						// eslint-disable-next-line @remotion/volume-callback
 						volume={audio.mixVolume}
 					/>
 				) : null;
@@ -74,9 +75,16 @@ function Clips(props: VideoSchema) {
 										return (
 											<AbsoluteFill key={index}>
 												<Img
-													// @ts-expect-error type discrimination not working
 													src={staticFile(layer.path)}
-													style={{objectFit: 'cover', height: "100%"}}
+													style={{
+														objectFit:
+															layer.resizeMode === 'contain-blur'
+																? 'contain'
+																: layer.resizeMode === 'stretch'
+																? 'fill'
+																: layer.resizeMode,
+														height: '100%',
+													}}
 												/>
 											</AbsoluteFill>
 										);
