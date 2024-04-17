@@ -9,11 +9,12 @@ import {
 	useVideoConfig,
 } from 'remotion';
 import {VideoSchema} from './schema';
-import { transform } from './schemaTransform';
+import {transform} from './schemaTransform';
 
 export const MyComposition = (props: VideoSchema) => {
 	const {fps} = useVideoConfig();
-	const { durations, transitions, times, frames } = transform(props, fps);
+	const {durations, frames} = transform(props, fps);
+
 	return (
 		<AbsoluteFill
 			style={{
@@ -54,7 +55,7 @@ function Clip(props: VideoSchema['clips'][number] & {frame: number}) {
 				if (layer.type === 'woxo-custom-text-basic') {
 					const startFrame = props.frame + Math.round((layer.start || 0) * fps);
 					const endFrame = props.frame + Math.round((layer.stop || 0) * fps);
-					if (frame >= startFrame && frame <= endFrame) {
+					if (frame >= startFrame && frame < endFrame) {
 						return (
 							<AbsoluteFill
 								style={{justifyContent: 'center', alignItems: 'center'}}
