@@ -116,7 +116,7 @@ export const video = {
 					width: 1080,
 					height: 1920,
 					start: 0.423938,
-					stop: 1.5,
+					stop: 1.4,
 					index: 4,
 				},
 				{
@@ -134,7 +134,7 @@ export const video = {
 					text: ' A ',
 					width: 1080,
 					height: 1920,
-					start: 1.5,
+					start: 1.4,
 					stop: 1.554375,
 					index: 5,
 				},
@@ -1366,8 +1366,7 @@ export const video = {
 					width: 1080,
 					height: 1920,
 					start: 1.7825629999999997,
-					stop: 1.7825629999999997,
-
+					stop: 1.882562999999999,
 					index: 6,
 				},
 				{
@@ -1385,7 +1384,7 @@ export const video = {
 					text: ' AFTER ',
 					width: 1080,
 					height: 1920,
-					start: 1.7825629999999997,
+					start: 1.882562999999999,
 					stop: 2.065187999999999,
 					index: 7,
 				},

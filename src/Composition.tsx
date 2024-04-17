@@ -69,7 +69,7 @@ function Clips(props: VideoSchema) {
 										: undefined;
 								const sequenceDuration = endFrame
 									? endFrame - startFrame <= 0
-										? 1
+										? undefined
 										: endFrame - startFrame
 									: durationInFrames;
 								return (
