@@ -51,41 +51,36 @@ export const MyComposition = (props: VideoSchema) => {
 
 function Clips(props: VideoSchema) {
 	const {fps} = useVideoConfig();
-	const {durations, frames} = transform(props, fps);
+	const {frames} = transform(props, fps);
+	const frame = useCurrentFrame();
 
 	return props.clips.map((clip, i) => {
-		return <Clip {...clip} frame={frames[i]!} duration={durations[i]!} />;
-	});
-}
-
-function Clip(clip: VideoSchema['clips'][number] & {frame: number}) {
-	const frame = useCurrentFrame();
-	const {fps} = useVideoConfig();
-	const durationInFrames = Math.round(clip.duration * fps);
-
-	return (
-		<Sequence from={clip.frame} durationInFrames={durationInFrames}>
-			<AbsoluteFill
-				style={{
-					justifyContent: 'center',
-					alignItems: 'center',
-					backgroundColor: colors[clip.frame % colors.length],
-				}}
-			>
-				{clip.layers.map((layer) => {
-					if (layer.type === 'woxo-custom-text-basic') {
-						const startFrame =
-							clip.frame + Math.round((layer.start || 0) * fps);
-						const endFrame = clip.frame + Math.round((layer.stop || 0) * fps);
-						if (frame >= startFrame && frame < endFrame) {
-							return <Text text={layer.text} />;
+		const clipFrame = frames[i]!;
+		const durationInFrames = Math.round(clip.duration * fps);
+		return (
+			<Sequence from={clipFrame} durationInFrames={durationInFrames}>
+				<AbsoluteFill
+					style={{
+						justifyContent: 'center',
+						alignItems: 'center',
+						backgroundColor: colors[i % colors.length],
+					}}
+				>
+					{clip.layers.map((layer) => {
+						if (layer.type === 'woxo-custom-text-basic') {
+							const startFrame =
+								clipFrame + Math.round((layer.start || 0) * fps);
+							const endFrame = clipFrame + Math.round((layer.stop || 0) * fps);
+							if (frame >= startFrame && frame < endFrame) {
+								return <Text text={layer.text} />;
+							}
 						}
-					}
-					return null;
-				})}
-			</AbsoluteFill>
-		</Sequence>
-	);
+						return null;
+					})}
+				</AbsoluteFill>
+			</Sequence>
+		);
+	});
 }
 
 function Text({text}: {text?: string}) {
