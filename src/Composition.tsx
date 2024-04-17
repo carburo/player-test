@@ -11,10 +11,17 @@ import {
 import {VideoSchema} from './schema';
 import {transform} from './schemaTransform';
 
-export const MyComposition = (props: VideoSchema) => {
-	const {fps} = useVideoConfig();
-	const {durations, frames} = transform(props, fps);
+const colors = [
+	'teal',
+	'peru',
+	'skyblue',
+	'orange',
+	'thistle',
+	'aquamarine',
+	'gainsboro',
+];
 
+export const MyComposition = (props: VideoSchema) => {
 	return (
 		<AbsoluteFill
 			style={{
@@ -45,7 +52,7 @@ export const MyComposition = (props: VideoSchema) => {
 function Clips(props: VideoSchema) {
 	const {fps} = useVideoConfig();
 	const {durations, frames} = transform(props, fps);
-	
+
 	return props.clips.map((clip, i) => {
 		return <Clip {...clip} frame={frames[i]!} duration={durations[i]!} />;
 	});
@@ -58,22 +65,25 @@ function Clip(clip: VideoSchema['clips'][number] & {frame: number}) {
 
 	return (
 		<Sequence from={clip.frame} durationInFrames={durationInFrames}>
-			{clip.layers.map((layer) => {
-				if (layer.type === 'woxo-custom-text-basic') {
-					const startFrame = clip.frame + Math.round((layer.start || 0) * fps);
-					const endFrame = clip.frame + Math.round((layer.stop || 0) * fps);
-					if (frame >= startFrame && frame < endFrame) {
-						return (
-							<AbsoluteFill
-								style={{justifyContent: 'center', alignItems: 'center'}}
-							>
-								<Text text={layer.text} />
-							</AbsoluteFill>
-						);
+			<AbsoluteFill
+				style={{
+					justifyContent: 'center',
+					alignItems: 'center',
+					backgroundColor: colors[clip.frame % colors.length],
+				}}
+			>
+				{clip.layers.map((layer) => {
+					if (layer.type === 'woxo-custom-text-basic') {
+						const startFrame =
+							clip.frame + Math.round((layer.start || 0) * fps);
+						const endFrame = clip.frame + Math.round((layer.stop || 0) * fps);
+						if (frame >= startFrame && frame < endFrame) {
+							return <Text text={layer.text} />;
+						}
 					}
-				}
-				return null;
-			})}
+					return null;
+				})}
+			</AbsoluteFill>
 		</Sequence>
 	);
 }
