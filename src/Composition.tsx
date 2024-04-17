@@ -112,19 +112,18 @@ function Text(layer: VideoSchema['clips'][number]['layers'][number]) {
 	if (layer.type !== 'woxo-custom-text-basic') {
 		return null;
 	}
-	const {strokeWidth, stroke} = layer;
-	const textShadow: string = `${strokeWidth}px ${strokeWidth}px 0 ${stroke}, 
-	-${strokeWidth}px ${strokeWidth}px 0 ${stroke},
-	-${strokeWidth}px -${strokeWidth}px 0 ${stroke},
-	${strokeWidth}px -${strokeWidth}px 0 ${stroke}`;
+
+	const stroke = layer.stroke || "#000";
+	const strokeWidth = layer.strokeWidth || 0;
 	return (
 		<AbsoluteFill
 			style={{
 				justifyContent: 'center',
 				alignItems: 'center',
-				fontWeight: 'bold',
+				fontWeight: '900',
 				color: 'white',
-				textShadow,
+				WebkitTextStrokeColor: stroke,
+				WebkitTextStrokeWidth: strokeWidth / 2 
 			}}
 		>
 			{layer.text}

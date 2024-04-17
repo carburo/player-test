@@ -41,7 +41,6 @@ export const video = {
 							sceneDuration: 6.4891250000000005,
 						},
 					],
-					index: 0,
 					start: 0,
 				},
 				{
@@ -407,8 +406,6 @@ export const video = {
 							sceneDuration: 7.0543130000000005,
 						},
 					],
-					index: 0,
-
 					start: 0,
 				},
 				{
@@ -850,7 +847,6 @@ export const video = {
 							sceneDuration: 6.076124,
 						},
 					],
-					index: 0,
 					start: 0,
 				},
 				{
@@ -1254,7 +1250,6 @@ export const video = {
 							sceneDuration: 7.521750000000001,
 						},
 					],
-					index: 0,
 					start: 0,
 				},
 				{
@@ -1627,7 +1622,6 @@ export const video = {
 							sceneDuration: 5.826062999999998,
 						},
 					],
-					index: 0,
 					start: 0,
 				},
 				{

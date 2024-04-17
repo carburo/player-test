@@ -316,7 +316,6 @@ const layerSchema = z.union([
 	woxoFillColorSchema,
 	woxoCompoundSchema,
 	styledTextLayerSchema,
-	// woxoImageLayerSchema,
 	woxoSVGSchema,
 	woxoGradientSchema,
 	serverSchema,
