@@ -2,9 +2,9 @@ import {
 	AbsoluteFill,
 	Audio,
 	staticFile,
-	useCurrentFrame,
 	useVideoConfig,
 	Img,
+	Sequence,
 } from 'remotion';
 import {VideoSchema} from './schema';
 import {transform} from './schemaTransform';
@@ -43,7 +43,6 @@ export const MyComposition = (props: VideoSchema) => {
 function Clips(props: VideoSchema) {
 	const {fps} = useVideoConfig();
 	const t = transform(props, fps);
-	const frame = useCurrentFrame();
 
 	return (
 		<TransitionSeries>
@@ -60,40 +59,28 @@ function Clips(props: VideoSchema) {
 							durationInFrames={durationInFrames}
 						>
 							{clip.layers.map((layer, index) => {
-								switch (layer.type) {
-									case 'woxo-custom-text-basic': {
-										const startFrame =
-											clipFrame + Math.round((layer.start || 0) * fps);
-										const endFrame =
-											clipFrame + Math.round((layer.stop || 0) * fps);
-										if (frame >= startFrame && frame < endFrame) {
-											return <Text key={index} {...layer} />;
-										}
-										break;
-									}
-									case 'woxo-image': {
-										return (
-											<AbsoluteFill key={index}>
-												<Img
-													src={staticFile(layer.path)}
-													style={{
-														objectFit:
-															layer.resizeMode === 'contain-blur'
-																? 'contain'
-																: layer.resizeMode === 'stretch'
-																? 'fill'
-																: layer.resizeMode,
-														height: '100%',
-													}}
-												/>
-											</AbsoluteFill>
-										);
-									}
-									default: {
-										return null;
-									}
-								}
-								return null;
+								const startFrame =
+									'start' in layer
+										? Math.round((layer.start || 0) * fps)
+										: clipFrame;
+								const endFrame =
+									'stop' in layer
+										? Math.round((layer.stop || 0) * fps)
+										: undefined;
+								const sequenceDuration = endFrame
+									? endFrame - startFrame <= 0
+										? 1
+										: endFrame - startFrame
+									: durationInFrames;
+								return (
+									<Sequence
+										key={index}
+										from={startFrame}
+										durationInFrames={sequenceDuration}
+									>
+										<Layer {...layer} />
+									</Sequence>
+								);
 							})}
 						</TransitionSeries.Sequence>
 						<TransitionSeries.Transition
@@ -108,12 +95,41 @@ function Clips(props: VideoSchema) {
 	);
 }
 
+function Layer(layer: VideoSchema['clips'][number]['layers'][number]) {
+	switch (layer.type) {
+		case 'woxo-custom-text-basic': {
+			return <Text {...layer} />;
+		}
+		case 'woxo-image': {
+			return (
+				<AbsoluteFill>
+					<Img
+						src={staticFile(layer.path)}
+						style={{
+							objectFit:
+								layer.resizeMode === 'contain-blur'
+									? 'contain'
+									: layer.resizeMode === 'stretch'
+									? 'fill'
+									: layer.resizeMode,
+							height: '100%',
+						}}
+					/>
+				</AbsoluteFill>
+			);
+		}
+		default: {
+			return null;
+		}
+	}
+}
+
 function Text(layer: VideoSchema['clips'][number]['layers'][number]) {
 	if (layer.type !== 'woxo-custom-text-basic') {
 		return null;
 	}
 
-	const stroke = layer.stroke || "#000";
+	const stroke = layer.stroke || '#000';
 	const strokeWidth = layer.strokeWidth || 0;
 	return (
 		<AbsoluteFill
@@ -123,7 +139,7 @@ function Text(layer: VideoSchema['clips'][number]['layers'][number]) {
 				fontWeight: '900',
 				color: 'white',
 				WebkitTextStrokeColor: stroke,
-				WebkitTextStrokeWidth: strokeWidth / 2 
+				WebkitTextStrokeWidth: strokeWidth / 2,
 			}}
 		>
 			{layer.text}
