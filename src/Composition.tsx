@@ -4,6 +4,7 @@ import {
 	Sequence,
 	interpolate,
 	spring,
+	staticFile,
 	useCurrentFrame,
 	useVideoConfig,
 } from 'remotion';
@@ -29,9 +30,12 @@ export const MyComposition = (props: VideoSchema) => {
 			}}
 		>
 			{props.audioTracks?.map((audio) => {
-				return audio.path ? (
+				const path = audio.path
+					?.replace('https://res.cloudinary.com/', '/')
+					.replace('https://vod.front10.cloud/', '/');
+				return path ? (
 					<Audio
-						src={audio.path}
+						src={staticFile(path)}
 						loop={audio.loop ?? true}
 						volume={audio.mixVolume}
 					/>
