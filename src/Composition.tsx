@@ -12,6 +12,7 @@ import {TransitionSeries, linearTiming} from '@remotion/transitions';
 import {fade} from '@remotion/transitions/fade';
 import React from 'react';
 import * as Montserrat from '@remotion/google-fonts/Montserrat';
+import {secsToFrames} from './utils';
 
 const {fontFamily} = Montserrat.loadFont('normal', {
 	weights: ['800'],
@@ -54,9 +55,10 @@ function Clips(props: VideoSchema) {
 		<TransitionSeries>
 			{props.clips.map((clip, i) => {
 				const clipFrame = t.frames[i]!;
-				const durationInFrames = Math.round(clip.duration * fps);
-				const transitionInFrames = Math.round(
-					(clip.transition?.duration || 0) * fps
+				const durationInFrames = secsToFrames(clip.duration, fps);
+				const transitionInFrames = secsToFrames(
+					clip.transition?.duration || 0,
+					fps
 				);
 				return (
 					<React.Fragment key={i}>
@@ -67,11 +69,11 @@ function Clips(props: VideoSchema) {
 							{clip.layers.map((layer, index) => {
 								const startFrame =
 									'start' in layer
-										? Math.round((layer.start || 0) * fps)
+										? secsToFrames(layer.start || 0, fps)
 										: clipFrame;
 								const endFrame =
 									'stop' in layer
-										? Math.round((layer.stop || 0) * fps)
+										? secsToFrames(layer.stop || 0, fps)
 										: undefined;
 								const sequenceDuration = endFrame
 									? endFrame - startFrame <= 0
