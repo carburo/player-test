@@ -11,16 +11,22 @@ import {transform} from './schemaTransform';
 import {TransitionSeries, linearTiming} from '@remotion/transitions';
 import {fade} from '@remotion/transitions/fade';
 import React from 'react';
+import * as Montserrat from '@remotion/google-fonts/Montserrat';
+
+const {fontFamily} = Montserrat.loadFont('normal', {
+	weights: ['800'],
+	subsets: ['latin', 'latin-ext'],
+});
 
 export const MyComposition = (props: VideoSchema) => {
 	return (
 		<AbsoluteFill
 			style={{
-				fontFamily: 'sans-serif',
+				fontFamily,
 				justifyContent: 'center',
 				alignItems: 'center',
 				fontSize: 100,
-				backgroundColor: 'white',
+				fontWeight: 800,
 			}}
 		>
 			{props.audioTracks?.map((audio) => {
@@ -138,8 +144,16 @@ function Text(layer: VideoSchema['clips'][number]['layers'][number]) {
 				alignItems: 'center',
 				fontWeight: '900',
 				color: 'white',
-				WebkitTextStrokeColor: stroke,
-				WebkitTextStrokeWidth: strokeWidth / 2,
+				letterSpacing: '0.04em',
+				textShadow: `
+					${strokeWidth}px ${strokeWidth}px 0 ${stroke}, 
+					-${strokeWidth}px -${strokeWidth}px 0 ${stroke}, 
+					-${strokeWidth}px ${strokeWidth}px 0 ${stroke}, 
+					${strokeWidth}px -${strokeWidth}px 0 ${stroke}, 
+					0 ${strokeWidth}px 0 ${stroke}, 
+					0 -${strokeWidth}px 0 ${stroke}, 
+					-${strokeWidth}px 0 0 ${stroke}, 
+					${strokeWidth}px 0 0 ${stroke}`,
 			}}
 		>
 			{layer.text}
