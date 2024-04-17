@@ -2,6 +2,7 @@ import {
 	AbsoluteFill,
 	Audio,
 	Sequence,
+	Series,
 	interpolate,
 	spring,
 	staticFile,
@@ -51,36 +52,42 @@ export const MyComposition = (props: VideoSchema) => {
 
 function Clips(props: VideoSchema) {
 	const {fps} = useVideoConfig();
-	const {frames} = transform(props, fps);
+	const t = transform(props, fps);
 	const frame = useCurrentFrame();
 
-	return props.clips.map((clip, i) => {
-		const clipFrame = frames[i]!;
-		const durationInFrames = Math.round(clip.duration * fps);
-		return (
-			<Sequence from={clipFrame} durationInFrames={durationInFrames}>
-				<AbsoluteFill
-					style={{
-						justifyContent: 'center',
-						alignItems: 'center',
-						backgroundColor: colors[i % colors.length],
-					}}
-				>
-					{clip.layers.map((layer) => {
-						if (layer.type === 'woxo-custom-text-basic') {
-							const startFrame =
-								clipFrame + Math.round((layer.start || 0) * fps);
-							const endFrame = clipFrame + Math.round((layer.stop || 0) * fps);
-							if (frame >= startFrame && frame < endFrame) {
-								return <Text text={layer.text} />;
-							}
-						}
-						return null;
-					})}
-				</AbsoluteFill>
-			</Sequence>
-		);
-	});
+	return (
+		<Series>
+			{props.clips.map((clip, i) => {
+				const clipFrame = t.frames[i]!;
+				const durationInFrames = Math.round(clip.duration * fps);
+				const transitionInFrames = Math.round((clip.transition?.duration || 0) * fps)
+				return (
+					<Series.Sequence durationInFrames={durationInFrames - transitionInFrames}>
+						<AbsoluteFill
+							style={{
+								justifyContent: 'center',
+								alignItems: 'center',
+								backgroundColor: colors[i % colors.length],
+							}}
+						>
+							{clip.layers.map((layer) => {
+								if (layer.type === 'woxo-custom-text-basic') {
+									const startFrame =
+										clipFrame + Math.round((layer.start || 0) * fps);
+									const endFrame =
+										clipFrame + Math.round((layer.stop || 0) * fps);
+									if (frame >= startFrame && frame < endFrame) {
+										return <Text text={layer.text} />;
+									}
+								}
+								return null;
+							})}
+						</AbsoluteFill>
+					</Series.Sequence>
+				);
+			})}
+		</Series>
+	);
 }
 
 function Text({text}: {text?: string}) {
