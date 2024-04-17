@@ -37,24 +37,31 @@ export const MyComposition = (props: VideoSchema) => {
 					/>
 				) : null;
 			})}
-			{props.clips.map((clip, i) => {
-				return <Clip {...clip} frame={frames[i]!} duration={durations[i]!} />;
-			})}
+			<Clips {...props} />
 		</AbsoluteFill>
 	);
 };
 
-function Clip(props: VideoSchema['clips'][number] & {frame: number}) {
+function Clips(props: VideoSchema) {
+	const {fps} = useVideoConfig();
+	const {durations, frames} = transform(props, fps);
+	
+	return props.clips.map((clip, i) => {
+		return <Clip {...clip} frame={frames[i]!} duration={durations[i]!} />;
+	});
+}
+
+function Clip(clip: VideoSchema['clips'][number] & {frame: number}) {
 	const frame = useCurrentFrame();
 	const {fps} = useVideoConfig();
-	const durationInFrames = Math.round(props.duration * fps);
+	const durationInFrames = Math.round(clip.duration * fps);
 
 	return (
-		<Sequence from={props.frame} durationInFrames={durationInFrames}>
-			{props.layers.map((layer) => {
+		<Sequence from={clip.frame} durationInFrames={durationInFrames}>
+			{clip.layers.map((layer) => {
 				if (layer.type === 'woxo-custom-text-basic') {
-					const startFrame = props.frame + Math.round((layer.start || 0) * fps);
-					const endFrame = props.frame + Math.round((layer.stop || 0) * fps);
+					const startFrame = clip.frame + Math.round((layer.start || 0) * fps);
+					const endFrame = clip.frame + Math.round((layer.stop || 0) * fps);
 					if (frame >= startFrame && frame < endFrame) {
 						return (
 							<AbsoluteFill
