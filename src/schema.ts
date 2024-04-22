@@ -1,5 +1,10 @@
 import {z} from 'zod';
 
+const fontSchema = z.object({
+	fontFamily: z.string(),
+	path: z.string(),
+});
+
 const animationSettingsSchema = z.object({
 	duration: z.optional(z.number()),
 	type: z.optional(z.string()),
@@ -157,6 +162,8 @@ const textOptionsSchema = z.object({
 	centeredRotation: z.optional(z.boolean()),
 	fillRule: z.optional(z.string()),
 	globalCompositeOperation: z.optional(z.string()),
+	customFont: fontSchema.optional(),
+	hide: z.boolean().optional(),
 	backgroundColor: z.optional(
 		z.union([
 			z.string(),
@@ -339,11 +346,6 @@ const IAudioSchema = z.object({
 	color: z.optional(z.string()),
 	initNeedlePosition: z.optional(z.number()),
 	loop: z.optional(z.boolean()),
-});
-
-const fontSchema = z.object({
-	fontFamily: z.string(),
-	path: z.string(),
 });
 
 const transitionSchema = z.object({
