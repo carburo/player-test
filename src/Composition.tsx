@@ -35,7 +35,7 @@ export const MyComposition = (props: VideoSchema) => {
 				return path ? (
 					<Audio
 						key={path}
-						src={staticFile(path)}
+						src={path.startsWith('/') ? staticFile(path) : path}
 						loop={audio.loop ?? true}
 						// eslint-disable-next-line @remotion/volume-callback
 						volume={audio.mixVolume}
@@ -112,7 +112,9 @@ function Layer(layer: VideoSchema['clips'][number]['layers'][number]) {
 			return (
 				<AbsoluteFill>
 					<Img
-						src={staticFile(layer.path)}
+						src={
+							layer.path.startsWith('/') ? staticFile(layer.path) : layer.path
+						}
 						style={{
 							objectFit:
 								layer.resizeMode === 'contain-blur'

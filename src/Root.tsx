@@ -1,8 +1,9 @@
 import {Composition} from 'remotion';
 import {MyComposition} from './Composition';
-import {video} from './napoleon';
+import {video} from './video';
+import {video as napoleon} from './napoleon';
 import {videoSchema} from './schema';
-import { transform } from './schemaTransform';
+import {transform} from './schemaTransform';
 
 const FPS = 30;
 
@@ -11,7 +12,7 @@ export function RemotionRoot() {
 	return (
 		<>
 			<Composition
-				id="MyComp"
+				id="Aymara"
 				component={MyComposition}
 				durationInFrames={transformedVideo.durationInFrames}
 				fps={FPS}
@@ -19,6 +20,16 @@ export function RemotionRoot() {
 				height={video.height}
 				schema={videoSchema}
 				defaultProps={video}
+			/>
+			<Composition
+				id="Napoleon"
+				component={MyComposition}
+				durationInFrames={transformedVideo.durationInFrames}
+				fps={FPS}
+				width={napoleon.width}
+				height={napoleon.height}
+				schema={videoSchema}
+				defaultProps={napoleon}
 			/>
 		</>
 	);
