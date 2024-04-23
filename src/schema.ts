@@ -57,6 +57,7 @@ const woxoVideoSchema = z
 const backgroundImageLayerSchema = z
 	.object({
 		path: z.string(),
+		optimizedMedia: z.boolean().optional()
 	})
 	.merge(baseLayerSchema)
 	.merge(backgroundLayerSchema);
@@ -312,6 +313,13 @@ const woxoIText = z.object({type: z.literal('woxo-itext'), text: z.string()});
 
 const woxoSolid = z.object({type: z.literal('woxo-solid'), text: z.string()});
 
+const woxoLogo = z.object({
+	type: z.literal('woxo-logo'),
+	path: z.string(),
+	size: z.number(),
+	position: z.enum(['top-right']),
+});
+
 const woxoCrissCross = z.object({
 	type: z.literal('woxo-crissCross'),
 	text: z.string(),
@@ -331,6 +339,7 @@ const layerSchema = z.union([
 	woxoIText,
 	woxoSolid,
 	woxoCrissCross,
+	woxoLogo
 ]);
 
 const IAudioSchema = z.object({
@@ -373,7 +382,7 @@ export const videoSchema = z.object({
 	audioTracks: z.optional(z.array(IAudioSchema)),
 	clipsAudioVolume: z.optional(z.number()),
 	keepSourceAudio: z.optional(z.boolean()),
-	meta: z.optional(z.record(z.string())),
+	meta: z.optional(z.record(z.unknown())),
 });
 
 export type VideoSchema = typeof videoSchema._type;

@@ -1,36 +1,37 @@
 import {Composition} from 'remotion';
 import {MyComposition} from './Composition';
-import {video} from './video';
+import {aymara, industrialRevolution} from './video';
 import {video as napoleon} from './napoleon';
-import {videoSchema} from './schema';
+import {VideoSchema, videoSchema} from './schema';
 import {transform} from './schemaTransform';
 
 const FPS = 30;
 
 export function RemotionRoot() {
-	const transformedVideo = transform(video, FPS);
 	return (
 		<>
-			<Composition
-				id="Aymara"
-				component={MyComposition}
-				durationInFrames={transformedVideo.durationInFrames}
-				fps={FPS}
-				width={video.width}
-				height={video.height}
-				schema={videoSchema}
-				defaultProps={video}
+			<CompositionItem
+				id="IndustrialRevolution"
+				video={industrialRevolution}
 			/>
-			<Composition
-				id="Napoleon"
-				component={MyComposition}
-				durationInFrames={transformedVideo.durationInFrames}
-				fps={FPS}
-				width={napoleon.width}
-				height={napoleon.height}
-				schema={videoSchema}
-				defaultProps={napoleon}
-			/>
+			<CompositionItem id="Aymara" video={aymara} />
+			<CompositionItem id="Napoleon" video={napoleon} />
 		</>
+	);
+}
+
+function CompositionItem({video, id}: {video: VideoSchema; id: string}) {
+	const transformedVideo = transform(video, FPS);
+	return (
+		<Composition
+			id={id}
+			component={MyComposition}
+			durationInFrames={transformedVideo.durationInFrames}
+			fps={FPS}
+			width={video.width}
+			height={video.height}
+			schema={videoSchema}
+			defaultProps={video}
+		/>
 	);
 }
